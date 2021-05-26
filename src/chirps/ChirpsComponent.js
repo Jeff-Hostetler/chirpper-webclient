@@ -77,7 +77,7 @@ class ChirpsComponent extends React.Component {
           <ul>
             {chirps.map(chirp => (
               <li key={chirp.id}>
-                {chirp.id} -- {chirp.text}
+                {chirp.id} -- {chirp.text.toUpperCase()}
               </li>
             ))}
           </ul>
@@ -89,6 +89,6 @@ class ChirpsComponent extends React.Component {
 
 const serverUrl = () => {
   return process.env.REACT_APP_SERVER_URL
-}
+};
 
 export default ChirpsComponent;

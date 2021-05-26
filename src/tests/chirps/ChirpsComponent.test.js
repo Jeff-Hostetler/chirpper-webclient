@@ -19,8 +19,8 @@ describe('intialization', () => {
     );
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
-    const firstChirp = await findByText(/1 -- first/i);
-    const secondChirp = await findByText(/2 -- second/i);
+    const firstChirp = await findByText(/1 -- FIRST/);
+    const secondChirp = await findByText(/2 -- SECOND/);
     expect(firstChirp).toBeInTheDocument();
     expect(secondChirp).toBeInTheDocument();
   });
@@ -37,7 +37,7 @@ describe('createChirp', () => {
     expect(fetch).toHaveBeenCalledWith(
       'www.test.com/chirpper/v1/chirps'
     );
-    const firstChirp = await findByText(/1 -- first/i);
+    const firstChirp = await findByText(/1 -- FIRST/);
     expect(firstChirp).toBeInTheDocument();
 
     fetch.mockResponseOnce(JSON.stringify(
