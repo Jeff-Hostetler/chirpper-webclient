@@ -25,3 +25,26 @@ describe('intialization', () => {
     expect(secondChirp).toBeInTheDocument();
   });
 });
+
+describe('createChirp', () => {
+  test('creating a chip', async () => {
+    fetch.mockResponseOnce(JSON.stringify(
+      {chirps: [{id: 1, text: 'first'}]}
+    ));
+
+    const {findByText} = render(<ChirpsComponent/>);
+
+    expect(fetch).toHaveBeenCalledWith(
+      'www.test.com/chirpper/v1/chirps'
+    );
+    const firstChirp = await findByText(/1 -- first/i);
+    expect(firstChirp).toBeInTheDocument();
+
+    fetch.mockResponseOnce(JSON.stringify(
+      {chirp: {id: 123, text: 'test text'}}
+    ));
+
+    // fill form and click button
+    // expect that the new chirp is at the top
+  })
+});
