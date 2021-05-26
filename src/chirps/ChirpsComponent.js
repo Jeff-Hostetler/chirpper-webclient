@@ -17,9 +17,10 @@ class ChirpsComponent extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
+
           this.setState({
             isLoaded: true,
-            chirps: result.chirps
+            chirps: result.popular_chirps.concat(result.chirps)
           });
         },
         (error) => {
@@ -61,6 +62,32 @@ class ChirpsComponent extends React.Component {
       )
   }
 
+  upvote(chirpId) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch(serverUrl() + 'chirps/' + chirpId + '/upvote', requestOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          let chirps = this.state.chirps;
+          let updatedChirp = result.chirp
+          chirps = chirps.map(chirp => {
+            if (chirp.id === updatedChirp.id) {
+              return updatedChirp;
+            } else {
+              return chirp;
+            }
+          });
+          this.setState({
+            isLoaded: true,
+            chirps: chirps
+          });
+        }
+      )
+  }
+
   render() {
     const { error, isLoaded, chirps } = this.state;
     if (error) {
@@ -77,7 +104,8 @@ class ChirpsComponent extends React.Component {
           <ul>
             {chirps.map(chirp => (
               <li key={chirp.id}>
-                {chirp.id} -- {chirp.text.toUpperCase()}
+                {chirp.id} -- {chirp.text.toUpperCase()} -- Upvotes: {chirp.upvotes}
+                <button onClick={() => this.upvote(chirp.id)}>Upvote</button>
               </li>
             ))}
           </ul>
